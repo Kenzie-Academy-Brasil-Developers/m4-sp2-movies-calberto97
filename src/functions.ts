@@ -175,7 +175,8 @@ export const showAllMovies = async (
   };
 
   const sort: any = request.query.sort;
-  const order: any = request.query.order === "DESC" ? "DESC" : "ASC";
+  const order: any =
+    request.query.order === "DESC" || "desc" ? "DESC" : "ASC";
 
   let queries: any = queryConfig;
 
@@ -189,11 +190,24 @@ export const showAllMovies = async (
       `${(page - 1) * perPage}`
     );
 
+    // query = `
+    // SELECT *
+    // FROM movies
+    // ORDER BY $1 $2
+    // LIMIT $3 OFFSET $3;
+    // `;
+
+    // queryConfig = {
+    //   text: query,
+    //   values: [sort, order, perPage, (page - 1) * perPage],
+    // };
+    // console.log(sort, order, perPage, (page - 1) * perPage)
+
     queries = query;
   }
 
   const queryResult: QueryResult<iMovieResult> = await client.query(
-    queries
+    queryConfig
   );
 
   let queryPagination: string = `

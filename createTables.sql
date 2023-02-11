@@ -5,3 +5,4 @@ description TEXT,
 duration INTEGER NOT NULL,
 price INTEGER NOT NULL
 );
+
